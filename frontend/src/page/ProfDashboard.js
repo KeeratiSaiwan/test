@@ -1,50 +1,20 @@
 import './ProfDashboard.css';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import ProfessorForms from './reqpage/ProfessorForms';
 
 export default function ProfDashboard(){
-        const [requests, setRequests] = useState([
-          //เปลี่ยนไส้
-          {
-            id: 1,
-            date: "2024-10-21",
-            title: "Request for Document A",
-            fileName: "document_a.pdf",
-            comment: "",
-            choice: "",
-          },
-          {
-            id: 2,
-            date: "2024-10-20",
-            title: "Request for Document B",
-            fileName: "document_b.pdf",
-            comment: "",
-            choice: "",
-          },
-        ]);
+  const [forms, setForms] = useState({forms});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
       
-        const handleChoiceChange = (id, choice) => {
-          setRequests(
-            requests.map((request) =>
-              request.id === id ? { ...request, choice } : request
-            )
-          );
-        };
-      
-        const handleCommentChange = (id, comment) => {
-          setRequests(
-            requests.map((request) =>
-              request.id === id ? { ...request, comment } : request
-            )
-          );
-        };
-      
-        const handleSubmit = (id) => {
-          //เปลียนไส้
-          const selectedRequest = requests.find((request) => request.id === id);
-          console.log(`Request ID: ${id}`);
-          console.log(`Choice: ${selectedRequest.choice}`);
-          console.log(`Comment: ${selectedRequest.comment}`);
-        };
+        // const handleSubmit = (id) => {
+        //   //เปลียนไส้
+        //   const selectedRequest = requests.find((request) => request.id === id);
+        //   console.log(`Request ID: ${id}`);
+        //   console.log(`Choice: ${selectedRequest.choice}`);
+        //   console.log(`Comment: ${selectedRequest.comment}`);
+        
 
     return(
         <div>
@@ -62,7 +32,7 @@ export default function ProfDashboard(){
                         <th>Submit</th>
                     </tr>
                 </thead>
-                <tbody>
+                {/* <tbody>
                   //เปลี่ยนmap
                     {requests.map((request) => (
                         <tr key={request.id}>
@@ -93,7 +63,7 @@ export default function ProfDashboard(){
             </td>
           </tr>
         ))}
-      </tbody>
+      </tbody> */}
     </table>
     <br></br>
     <table>
@@ -106,7 +76,7 @@ export default function ProfDashboard(){
         </tr>
       </thead>
       <tbody>
-        <td></td>
+        <td>{forms.ProfessorForms["Title"]}</td>
         <td></td>
         <td></td>
         <td></td>
@@ -114,4 +84,4 @@ export default function ProfDashboard(){
     </table>
     </div>
     );
-}
+};
