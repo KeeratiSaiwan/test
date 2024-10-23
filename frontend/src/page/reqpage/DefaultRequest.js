@@ -1,31 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ReqCSS/DefaultRequest.css'
 import NavbarReq from '../../components/NavbarReq';
+import axios from 'axios'
 
 export default function DefaultRequest()  {
   
-  const [formData, setFormData] = useState({
-    semester_year: '',
-    reqTitle: '',
-    reqContent: '',
-    section: '',
-    semester: '',
-    teacher: '',
-    course_number: '',
-    file: null,
-  });
+  const [form_type] = useState('Default')
+  const [semester_year, setSemesterYear] = useState('')
+  const [semester, setSemester] = useState('')
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [professor, setProf] = useState('')
+  const [subject, setSubject] = useState('')
+  const [section, setSection] = useState('')
+  const [senderId, setSenderID] = useState(6610742360)
+  const [status, setStatus] = useState('pending')
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value,
-    });
-  };
+  const form_location = 'http://localhost:8000/forms'
+
+  const FormHandler = () => {
+    axios.post(form_location, {
+        form_type: form_type,
+        semester_year: semester_year,
+        semester: semester,
+        title: title,
+        content: content,
+        professor: professor,
+        subject: subject,
+        section: section,
+        senderId: senderId,
+        status: status
+    }).then(res => console.log(res))
+      .catch(err => console.error("Error posting form data:", err));
+    };
 
   const handleSubmit = (e) => {
+    FormHandler();
     e.preventDefault();
-    console.log(formData);
+    alert("ส่งคำร้องสำเร็จ")
   };
 
   return (
@@ -40,9 +52,9 @@ export default function DefaultRequest()  {
               type="text"
               name="semester_year"
               id="semesterYear"
-             placeholder="user input here..."
-              value={formData.semester_year}
-              onChange={handleChange}
+              placeholder="user input here..."
+              onChange={event => setSemesterYear(event.target.value)}
+              required
             />
           </div>
 
@@ -51,12 +63,13 @@ export default function DefaultRequest()  {
             <select
               name="semester"
               id="semester"
-              value={formData.semester}
-              onChange={handleChange}
+              onChange={event => setSemester(event.target.value)}
+              required
             >
               <option value="">user choose semester here</option>
-             <option value="Option 1A">Option 1A</option>
-             <option value="Option 1B">Option 1B</option>
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="summer">Summer</option>
             </select>
           </div>
 
@@ -67,8 +80,8 @@ export default function DefaultRequest()  {
               name="reqTitle"
               id="reqTitle"
               placeholder="user input here..."
-              value={formData.reqTitle}
-              onChange={handleChange}
+              onChange={event => setTitle(event.target.value)}
+              required
            />
          </div>
 
@@ -80,8 +93,8 @@ export default function DefaultRequest()  {
             id="reqContent"
             className="large-input"
             placeholder="user input here..."
-            value={formData.reqContent}
-            onChange={handleChange}
+            onChange={event => setContent(event.target.value)}
+            required
           />
         </div>
 
@@ -90,8 +103,8 @@ export default function DefaultRequest()  {
           <select
             name="teacher"
             id="teacher"
-            value={formData.teacher}
-            onChange={handleChange}
+            onChange={event => setProf(event.target.value)}
+            required
           >
             <option value="">user choose teacher here...</option>
             <option value="somchai">สมชาย</option>
@@ -105,12 +118,14 @@ export default function DefaultRequest()  {
           <select
             name="course_number"
             id="courseNumber"
-            value={formData.course_number}
-            onChange={handleChange}
+            onChange={event => setSubject(event.target.value)}
+            required
           >
             <option value="">user choose course number here...</option>
-            <option value="Option 3A">Option 3A</option>
-            <option value="Option 3B">Option 3B</option>
+            <option value="ST247">ST247</option>
+            <option value="CN101">CN101</option>
+            <option value="SF221">SF221</option>
+            <option value="EL105">EL105</option>
           </select>
         </div>
 
@@ -121,12 +136,13 @@ export default function DefaultRequest()  {
             name="section"
             id="section"
             placeholder="user input here..."
-            value={formData.section}
-            onChange={handleChange}
+            onChange={event => setSection(event.target.value)}
+            required
           />
         </div>
 
-        <div className="input-group">
+        {/*ที่ส่งไฟล์ เก็บไว้ก่อน เผื่อใช้*/}
+        {/* <div className="input-group">
           <label htmlFor="fileUpload">ไฟล์แนบ</label>
           <input
             type="file"
@@ -134,7 +150,7 @@ export default function DefaultRequest()  {
             id="fileUpload"
             onChange={handleChange}
           />
-        </div>
+        </div> */}
 
         <button type="submit">Submit</button>
       </form>
