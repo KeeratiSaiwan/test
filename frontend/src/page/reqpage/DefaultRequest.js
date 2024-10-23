@@ -94,8 +94,9 @@ export default function DefaultRequest()  {
             onChange={handleChange}
           >
             <option value="">user choose teacher here...</option>
-            <option value="Option 2A">Option 2A</option>
-            <option value="Option 2B">Option 2B</option>
+            <option value="somchai">สมชาย</option>
+            <option value="somying">สมหญิง</option>
+            <option value="art">อาร์ต</option>
           </select>
         </div>
 
